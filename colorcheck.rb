@@ -13,7 +13,6 @@ unless File.exist? file
   exit
 end
 
-
 class Array
   def to_ranges
     compact.sort.uniq.inject([]) do |r,x|
@@ -60,6 +59,6 @@ if colored_pages.length > 0
   end
   puts output.join(',')
 else
-  # save for grayscale conversion
+  # safe for grayscale conversion
   puts 'ALL GREY'
 end
