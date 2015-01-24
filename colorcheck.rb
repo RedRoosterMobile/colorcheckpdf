@@ -59,6 +59,6 @@ if colored_pages.length > 0
   end
   puts output.join(',')
 else
-  # save for grayscale conversion
+  # safe for grayscale conversion
   puts 'ALL GREY'
 end
