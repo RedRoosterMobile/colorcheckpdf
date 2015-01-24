@@ -8,15 +8,15 @@ end
 
 class GhostScriptParser
 
-  ALLOWED_DEVICES = [:inkcov]
+  SUPPORTED_DEVICES = [:inkcov]
 
   def initialize(gs_output, device)
     # Instance variables
     @gs_output = gs_output
     @colored_pages = []
     @device = device
-    unless ALLOWED_DEVICES.include? device
-      raise Exception.new "not in list of allowed devices\n try one of: #{ALLOWED_DEVICES.join(',')}"
+    unless SUPPORTED_DEVICES.include? device
+      raise Exception.new "not in list of allowed devices\n try one of: #{SUPPORTED_DEVICES.join(',')}"
     end
   end
 
@@ -28,8 +28,8 @@ class GhostScriptParser
         if page_line
           current_page = page_line.to_s.split(' ').last.to_i
         elsif current_page > 0 and line.start_with? ' '
-          parts = line.scan(/(\d+[.]\d+)/)
-          #  0.05803  0.05803  0.05803  0.00000 CMYK OK
+          # 0.05803  0.05803  0.05803  0.00000 CMYK OK
+          parts = line.scan(/(\d[.]\d+)/)
           # first three equal is grey! ignore key (black)
           unless (parts.first == parts[1]) and (parts.first == parts[2])
             # first C,M,Y are different, colored page
@@ -37,10 +37,8 @@ class GhostScriptParser
           end
         end
       end
-      @colored_pages
-    else
-      @colored_pages
     end
+    @colored_pages
   end
 
   def colored_pages?

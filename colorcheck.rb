@@ -15,9 +15,9 @@ unless File.exist? file
   exit
 end
 
-gs_output = `gs  -o - -sDEVICE=#{GhostScriptParser::ALLOWED_DEVICES.first} #{Shellwords.shellescape file}`
+gs_output = `gs  -o - -sDEVICE=#{GhostScriptParser::SUPPORTED_DEVICES.first} #{Shellwords.shellescape file}`
 
-gsp = GhostScriptParser.new gs_output, GhostScriptParser::ALLOWED_DEVICES.first
+gsp = GhostScriptParser.new gs_output, GhostScriptParser::SUPPORTED_DEVICES.first
 
 puts '[RESULT]:'
 if gsp.colored_pages?
