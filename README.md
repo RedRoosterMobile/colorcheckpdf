@@ -1,6 +1,6 @@
 # colorcheckpdf
 
-Ruby script to check what pages of a pdf contains color and outputs those.
+Ruby script to check which pages of a pdf contain color and output those.
 
 Dependencies
 
@@ -10,7 +10,10 @@ Dependencies
 Example:
 
  ```
-./colorcheckpdf color-or-grayscale-test.pdf
+./colorcheck.rb testpdfs/combined.pdf
  ```
 
 Example output:
+ ```
+1,3-4
+ ```
