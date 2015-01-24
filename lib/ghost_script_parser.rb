@@ -7,11 +7,17 @@ class Array
 end
 
 class GhostScriptParser
+
+  ALLOWED_DEVICES = [:inkcov]
+
   def initialize(gs_output, device)
     # Instance variables
     @gs_output = gs_output
     @colored_pages = []
     @device = device
+    unless ALLOWED_DEVICES.include? device
+      raise Exception.new "not in list of allowed devices\n try one of: #{ALLOWED_DEVICES.join(',')}"
+    end
   end
   def colored_pages
     if @colored_pages.length==0 and @device == :inkcov

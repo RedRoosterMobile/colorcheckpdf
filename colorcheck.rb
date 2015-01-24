@@ -15,9 +15,9 @@ unless File.exist? file
   exit
 end
 
-gs_output = `gs  -o - -sDEVICE=inkcov #{Shellwords.shellescape file}`
+gs_output = `gs  -o - -sDEVICE=#{GhostScriptParser::ALLOWED_DEVICES.first} #{Shellwords.shellescape file}`
 
-gsp = GhostScriptParser.new gs_output, :inkcov
+gsp = GhostScriptParser.new gs_output, GhostScriptParser::ALLOWED_DEVICES.first
 
 puts '[RESULT]:'
 if gsp.colored_pages?
