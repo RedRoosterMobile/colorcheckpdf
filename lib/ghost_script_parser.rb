@@ -19,26 +19,21 @@ class GhostScriptParser
       raise Exception.new "not in list of allowed devices\n try one of: #{ALLOWED_DEVICES.join(',')}"
     end
   end
+
   def colored_pages
     if @colored_pages.length==0 and @device == :inkcov
       current_page = 0
-      puts '----'
-      #puts @gs_output
       @gs_output.each_line do |line|
         page_line = line.match(/Page [0-9]+/)
-        if page_line.to_s.include? 'Page '
-          current_page = page_line.to_s.split(' ').last
-        else
-          unless current_page==0
-            # is color-info line?
-            if line.start_with? ' '
-              parts = line.split(' ')
-              # first three equal is grey! ignore key (black)
-              unless (parts.first == parts[1]) and (parts.first == parts[2])
-                # first C,M,Y are different, colored page
-                @colored_pages.push current_page.to_i
-              end
-            end
+        if page_line
+          current_page = page_line.to_s.split(' ').last.to_i
+        elsif current_page > 0 and line.start_with? ' '
+          parts = line.scan(/(\d+[.]\d+)/)
+          #  0.05803  0.05803  0.05803  0.00000 CMYK OK
+          # first three equal is grey! ignore key (black)
+          unless (parts.first == parts[1]) and (parts.first == parts[2])
+            # first C,M,Y are different, colored page
+            @colored_pages.push current_page.to_i
           end
         end
       end
@@ -47,6 +42,7 @@ class GhostScriptParser
       @colored_pages
     end
   end
+
   def colored_pages?
     colored_pages.length > 0
   end
