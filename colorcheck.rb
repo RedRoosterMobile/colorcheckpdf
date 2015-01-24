@@ -4,7 +4,7 @@ $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 require 'ghost_script_parser'
 
 if ARGV.length==0
-  puts '[USAGE]: colorcheck.rb PATH_TO_PDF'
+  puts "[USAGE]: #{__FILE__} PATH_TO_PDF"
   exit
 end
 
@@ -14,7 +14,6 @@ unless File.exist? file
   puts "[ERROR]: file does not exist\n #{file}"
   exit
 end
-
 
 gs_output = `gs  -o - -sDEVICE=inkcov #{Shellwords.shellescape file}`
 
